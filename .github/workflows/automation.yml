@@ -1,13 +1,16 @@
 name: Automation
 on:
   issues:
-    types:
-      - opened
+    types: [ "opened" ]
   pull_request:
-    types:
-      - opened
+    types: [ "opened" ]
+  push:
+    branches: [ "main" ]
+    paths: [ "**.tf"]
+
 jobs:
   project:
+    if: github.event_name == 'issues' || github.event_name == 'pull_request'
     name: Add to project
     runs-on: ubuntu-latest
     steps:
@@ -15,3 +18,14 @@ jobs:
         with:
           project-url: https://github.com/orgs/azureterraform/projects/1
           github-token: ${{ secrets.ATFBOT_PAT }}
+
+
+  release-please:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        with:
+          token: ${{ secrets.ATFBOT_PAT }}
+          release-type: terraform-module
+          package-name: release-please-action
