@@ -16,4 +16,4 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Terraform
-        run: terraform fmt -recurse
+        run: terraform fmt -recursive
