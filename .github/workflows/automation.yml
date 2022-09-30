@@ -19,13 +19,13 @@ jobs:
           project-url: https://github.com/orgs/azureterraform/projects/1
           github-token: ${{ secrets.ATFBOT_PAT }}
 
-
   release-please:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: google-github-actions/release-please-action@v3
         with:
           token: ${{ secrets.ATFBOT_PAT }}
           release-type: terraform-module
-          package-name: release-please-action
+          signoff: "atfbot <113607763+atfbot@users.noreply.github.com>"
+          prerelease: true
